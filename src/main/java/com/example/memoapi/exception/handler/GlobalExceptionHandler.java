@@ -3,6 +3,7 @@ package com.example.memoapi.exception.handler;
 import com.example.memoapi.exception.LoginArgumentNotValidException;
 import com.example.memoapi.exception.NoteArgumentNotValidException;
 import com.example.memoapi.exception.NoteNotFoundException;
+import com.example.memoapi.exception.UserRegistrationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -63,5 +64,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMalformed(MalformedJwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", "MalformedToken", "message", "JWT token is malformed"));
+    }
+
+    @ExceptionHandler(UserRegistrationException.class)
+    public ResponseEntity<String> handleUserRegistrationException(UserRegistrationException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
